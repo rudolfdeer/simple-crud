@@ -1,0 +1,46 @@
+{
+  [
+     {
+        "id":"1",
+        "username":"John Doe",
+        "age":25,
+        "hobbies":[
+           
+        ]
+     },
+     {
+        "id":"2",
+        "username":"Jane Doe",
+        "age":45,
+        "hobbies":[
+           "swimming",
+           "biking"
+        ]
+     },
+     {
+        "id":"3",
+        "username":"John Galt",
+        "age":11,
+        "hobbies":[
+           "PC",
+           "Tik Tok"
+        ]
+     },
+     {
+        "id":"4",
+        "username":"Eric",
+        "age":13,
+        "hobbies":[
+           "volonteering"
+        ]
+     },
+     {
+        "id":"5",
+        "username":"Enzo",
+        "age":34,
+        "hobbies":[
+           
+        ]
+     }
+  ]
+}
