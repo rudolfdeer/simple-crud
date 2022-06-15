@@ -46,11 +46,22 @@ const update = (body: User, id: string) => {
   return updatedUser;
 };
 
+const remove = (id: string) => {
+  const index = usersMock.findIndex((el) => el.id === id);
+
+  if (index === -1) {
+    throw new Error(CONSTANTS.MESSAGES.NOT_FOUND);
+  }
+
+  usersMock.splice(index, 1);
+};
+
 const repository = {
   getAll,
   getById,
   create,
   update,
+  remove,
 };
 
 module.exports = {

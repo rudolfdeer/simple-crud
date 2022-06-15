@@ -51,12 +51,16 @@ const update = async (body: any, id: string) => {
   return response;
 };
 
+const remove = async (id: string) => {
+  await repository.remove(id);
+};
 
 const service = {
   getAll,
   getById,
   create,
   update,
+  remove,
 };
 
 module.exports = {

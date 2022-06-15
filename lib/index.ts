@@ -78,6 +78,21 @@ export class App {
               }
             });
         }
+
+        if (req.url?.match(/\/api\/users\/./) && req.method == 'DELETE') {
+          const id = req.url.split('/')[3];
+          if (!uuidValidate(id)) {
+            res.writeHead(CONSTANTS.CODE_STATUSES.INVALID);
+            res.end(CONSTANTS.MESSAGES.INVALID_ID);
+          }
+
+          try {
+            await controller.remove(res, id);
+          } catch (err) {
+            res.writeHead(CONSTANTS.CODE_STATUSES.SERVER_ERROR);
+            res.end((err as Error).message);
+          }
+        }
       }
     );
   }

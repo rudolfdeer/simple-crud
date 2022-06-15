@@ -56,11 +56,23 @@ const update = async (res: ServerResponse, body: any, id: string) => {
   }
 };
 
+const remove = async (res: ServerResponse, id: string) => {
+  try {
+    await service.remove(id);
+    res.writeHead(CONSTANTS.CODE_STATUSES.DELETED);
+    res.end();
+  } catch (err) {
+    res.writeHead(CONSTANTS.CODE_STATUSES.NOT_FOUND);
+    res.end((err as Error).message);
+  }
+};
+
 const controller = {
   getAll,
   getById,
   create,
   update,
+  remove,
 };
 
 module.exports = {
