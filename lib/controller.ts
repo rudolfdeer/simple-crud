@@ -7,7 +7,9 @@ const { CONSTANTS } = require('./constants');
 const getAll = async (res: ServerResponse) => {
   try {
     const response = await service.getAll();
-    res.writeHead(CONSTANTS.CODE_STATUSES.OK, { 'Content-Type': 'application/json' });
+    res.writeHead(CONSTANTS.CODE_STATUSES.OK, {
+      'Content-Type': 'application/json',
+    });
     res.end(JSON.stringify(response));
   } catch (err) {
     res.writeHead(CONSTANTS.CODE_STATUSES.SERVER_ERROR);
@@ -17,7 +19,9 @@ const getAll = async (res: ServerResponse) => {
 const getById = async (res: ServerResponse, id: string) => {
   try {
     const response = await service.getById(id);
-    res.writeHead(CONSTANTS.CODE_STATUSES.OK, { 'Content-Type': 'application/json' });
+    res.writeHead(CONSTANTS.CODE_STATUSES.OK, {
+      'Content-Type': 'application/json',
+    });
     res.end(JSON.stringify(response));
   } catch (err) {
     res.writeHead(CONSTANTS.CODE_STATUSES.NOT_FOUND);
@@ -36,10 +40,27 @@ const create = async (res: ServerResponse, body: any) => {
   }
 };
 
+const update = async (res: ServerResponse, body: any, id: string) => {
+  try {
+    const response = await service.update(body, id);
+    res.writeHead(CONSTANTS.CODE_STATUSES.OK);
+    res.end(JSON.stringify(response));
+  } catch (err) {
+    if ((err as Error).message === CONSTANTS.MESSAGES.NOT_FOUND) {
+      res.writeHead(CONSTANTS.CODE_STATUSES.NOT_FOUND);
+      res.end((err as Error).message);
+    } else {
+      res.writeHead(CONSTANTS.CODE_STATUSES.INVALID);
+      res.end((err as Error).message);
+    }
+  }
+};
+
 const controller = {
   getAll,
   getById,
   create,
+  update,
 };
 
 module.exports = {

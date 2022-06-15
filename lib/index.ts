@@ -26,7 +26,6 @@ export class App {
 
         if (req.url?.match(/\/api\/users\/./) && req.method == 'GET') {
           const id = req.url.split('/')[3];
-          console.log(id);
           if (!uuidValidate(id)) {
             res.writeHead(CONSTANTS.CODE_STATUSES.INVALID);
             res.end(CONSTANTS.MESSAGES.INVALID_ID);
@@ -55,8 +54,29 @@ export class App {
                 res.end((err as Error).message);
               }
             });
+        }
 
-          
+        if (req.url?.match(/\/api\/users\/./) && req.method == 'PUT') {
+          const id = req.url.split('/')[3];
+          if (!uuidValidate(id)) {
+            res.writeHead(CONSTANTS.CODE_STATUSES.INVALID);
+            res.end(CONSTANTS.MESSAGES.INVALID_ID);
+          }
+
+          let data = '';
+          req
+            .on('data', (chunk) => {
+              data += chunk;
+            })
+            .on('end', async () => {
+              try {
+                const body = JSON.parse(data);
+                await controller.update(res, body, id);
+              } catch (err) {
+                res.writeHead(CONSTANTS.CODE_STATUSES.SERVER_ERROR);
+                res.end((err as Error).message);
+              }
+            });
         }
       }
     );
