@@ -7,7 +7,7 @@ const { controller } = require('./controller');
 const serverConfig = {
   port: process.env.SERVER_PORT || 3000,
 };
-export class App {
+class Server {
   client: http.Server;
 
   constructor() {
@@ -112,17 +112,19 @@ export class App {
   }
 }
 
-class Server {
-  app: App;
+class App {
+  server: Server;
 
   constructor() {
-    this.app = new App();
+    this.server = new Server();
   }
 
   start() {
-    this.app.listen();
+    this.server.listen();
   }
 }
 
-const server = new Server();
-server.start();
+const app = new App();
+app.start();
+
+export default app;
