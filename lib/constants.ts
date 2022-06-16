@@ -15,6 +15,7 @@ const MESSAGES = {
   INVALID_BODY: 'Invalid body: does not contain required fields or their type is incorrent.',
   NOT_FOUND: 'Record with this id doesnt exist.',
   DELETED: 'Record is deleted.',
+  INVALID_ENDPOINT: 'Invalid request path',
 };
 
 const CONSTANTS = {

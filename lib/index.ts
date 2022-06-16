@@ -1,14 +1,12 @@
-import http, { IncomingMessage, RequestListener, ServerResponse } from 'http';
-import { RequestOptions } from 'https';
+require('dotenv').config();
+import http, { IncomingMessage, ServerResponse } from 'http';
 import { validate as uuidValidate } from 'uuid';
 const { CONSTANTS } = require('./constants');
-
 const { controller } = require('./controller');
 
 const serverConfig = {
   port: process.env.SERVER_PORT || 3000,
 };
-
 export class App {
   client: http.Server;
 
@@ -22,9 +20,10 @@ export class App {
             res.writeHead(CONSTANTS.CODE_STATUSES.SERVER_ERROR);
             res.end((err as Error).message);
           }
-        }
-
-        if (req.url?.match(/\/api\/users\/./) && req.method == 'GET') {
+        } else if (
+          req.url?.match(/api[\/]users[\/][a-zA-Z0-9-]{1,}[^\/]$/) &&
+          req.method == 'GET'
+        ) {
           const id = req.url.split('/')[3];
           if (!uuidValidate(id)) {
             res.writeHead(CONSTANTS.CODE_STATUSES.INVALID);
@@ -37,9 +36,7 @@ export class App {
             res.writeHead(CONSTANTS.CODE_STATUSES.SERVER_ERROR);
             res.end((err as Error).message);
           }
-        }
-
-        if (req.url == '/api/users' && req.method == 'POST') {
+        } else if (req.url == '/api/users' && req.method == 'POST') {
           let data = '';
           req
             .on('data', (chunk) => {
@@ -54,9 +51,10 @@ export class App {
                 res.end((err as Error).message);
               }
             });
-        }
-
-        if (req.url?.match(/\/api\/users\/./) && req.method == 'PUT') {
+        } else if (
+          req.url?.match(/api[\/]users[\/][a-zA-Z0-9-]{1,}[^\/]$/) &&
+          req.method == 'PUT'
+        ) {
           const id = req.url.split('/')[3];
           if (!uuidValidate(id)) {
             res.writeHead(CONSTANTS.CODE_STATUSES.INVALID);
@@ -77,9 +75,10 @@ export class App {
                 res.end((err as Error).message);
               }
             });
-        }
-
-        if (req.url?.match(/\/api\/users\/./) && req.method == 'DELETE') {
+        } else if (
+          req.url?.match(/api[\/]users[\/][a-zA-Z0-9-]{1,}[^\/]$/) &&
+          req.method == 'DELETE'
+        ) {
           const id = req.url.split('/')[3];
           if (!uuidValidate(id)) {
             res.writeHead(CONSTANTS.CODE_STATUSES.INVALID);
@@ -92,6 +91,9 @@ export class App {
             res.writeHead(CONSTANTS.CODE_STATUSES.SERVER_ERROR);
             res.end((err as Error).message);
           }
+        } else {
+          res.writeHead(CONSTANTS.CODE_STATUSES.NOT_FOUND);
+          res.end(CONSTANTS.MESSAGES.INVALID_ENDPOINT);
         }
       }
     );
