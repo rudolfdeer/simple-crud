@@ -1,7 +1,0 @@
-{
-  "ignore": ["node_modules"],
-  "watch": ["lib"],
-  "exec": "ts-node ./lib/index.ts",
-  "ext": "ts, js",
-  "restartable": "rs"
-}
